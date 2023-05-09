@@ -1,0 +1,42 @@
+{% set index = 0 %}
+
+<div class="club">
+
+    <div class="d-flex align-items-center justify-content-between">
+        <h1>Club</h1>
+        <a class="btn btn-primary" href="{{ path('app_club_new') }}">New club</a>
+    </div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Country</th>
+            <th>Balance</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for club in clubs %}
+            {% set index = index + 1 %}
+            <tr>
+                <td>{{ index }}</td>
+                <td>{{ club.name }}</td>
+                <td>{{ club.country }}</td>
+                <td>{{ club.balance }}</td>
+                <td>
+                    <a class="btn btn-sm btn-outline-primary" href="{{ path('app_club_select', {'id': club.id}) }}">
+                        select
+                    </a>
+                    <a class="btn btn-sm btn-outline-info" href="{{ path('app_club_edit', {'id': club.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no clubs found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

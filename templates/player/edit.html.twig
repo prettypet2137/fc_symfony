@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Club{% endblock %}
+
+{% block body %}
+
+    {{ form_start(form) }}
+    <div class="card text-center">
+        <div class="card-header text-start">
+            <h1>Edit Player</h1>
+        </div>
+        <div class="card-body">
+            <div class="mb-3 row">
+                <label for="{{ field_name(form.name) }}" class="col-sm-2 col-form-label">{{ form_label(form.name) }}</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" name="{{ field_name(form.name) }}" value="{{ field_value(form.name) }}">
+                    {% if field_errors(form.name)|length > 0 %}
+                        <div class="alert alert-danger mb-0 p-2 mt-2" role="alert">
+                            {% for error in field_errors(form.name) %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="{{ field_name(form.surname) }}" class="col-sm-2 col-form-label">{{ form_label(form.surname) }}</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" name="{{ field_name(form.surname) }}" value="{{ field_value(form.surname) }}">
+                    {% if field_errors(form.surname)|length > 0 %}
+                        <div class="alert alert-danger mb-0 p-2 mt-2" role="alert">
+                            {% for error in field_errors(form.surname) %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="{{ field_name(form.club) }}" class="col-sm-2 col-form-label">{{ form_label(form.club) }}</label>
+                <div class="col-sm-4">
+                    <select name="{{ field_name(form.club) }}" class="form-select">
+                        {% for label, value in field_choices(form.club) %}
+                            <option value="{{ value }}" {{ field_value(form.club) == value ? "selected" : "" }}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-muted">
+            <div class="d-flex justify-content-start">
+                <button class="btn btn-primary" class="btn">Update</button>
+                <a class="btn btn-secondary ms-2" href="{{ path('app_club_index') }}">Back</a>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Club index{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+
+        <div class="col-12 col-md-8">
+
+            <div class="club p-4">
+
+                {{ include('club/list.html.twig') }}
+
+            </div>
+
+        </div>
+
+        {% set index = 0 %}
+
+        <div class="col-12 col-md-4">
+
+            <div class="player p-4">
+
+                <div class="d-flex align-items-center justify-content-between">
+                    <h1>Player</h1>
+                    <a class="btn btn-primary" href="{{ path('app_player_new', {'club': club.id}) }}">New player</a>
+                </div>
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for player in paginator.items %}
+                        {% set index = index + 1 %}
+                        <tr>
+                            <td>{{ index }}</td>
+                            <td>{{ player.name }} {{ player.surname }}</td>
+                            <td>
+                                <a class="btn btn-sm btn-outline-info" href="{{ path('app_player_edit', {'id': player.id}) }}">edit</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="5">no players found</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+                {{ include('paginator.html.twig') }}
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}

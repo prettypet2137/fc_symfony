@@ -1,0 +1,129 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Club index{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+
+        function onRefreshForm() {
+            let form = document.forms[0];
+            form.action = "{{ path('app_transfer_show') }}";
+            form.submit();
+        }
+
+        function sell() {
+            let form = document.forms[0];
+            form.action = "{{ path('app_transfer_sell') }}";
+            form.submit();
+        }
+
+        function buy() {
+            let form = document.forms[0];
+            form.action = "{{ path('app_transfer_buy') }}";
+            form.submit();
+        }
+
+    </script>
+
+{% endblock %}
+
+{% block body %}
+
+    {% if error is defined and error is not empty %}
+        <div class="alert alert-danger mb-0 p-2 mt-2" role="alert">
+            {{ error }}
+        </div>
+    {% endif %}
+
+
+    {{ form_errors(form) }}
+
+    <form name="player_transfer" method="post">
+        {{ form_row(form._token) }}
+
+        <div class="row">
+
+            <div class="col-md-5 p-4">
+
+                <select name="{{ field_name(form.club1) }}" class="form-select mb-4" onchange="onRefreshForm()">
+                    <option value="">Select Club</option>
+
+                    {% for label, value in field_choices(form.club1) %}
+                        <option value="{{ value }}" {{ field_value(form.club1) == value ? "selected" : "" }}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+
+                {% for club in clubs %}
+                    {% if field_value(form.club1) == club.id %}
+                        <p>Balance: <strong>{{ club.balance }}</strong></p>
+                    {% endif %}
+                {% endfor %}
+
+                <ul class="list-group">
+                    {% for player in players1 %}
+                        <li class="list-group-item">
+                            <input class="form-check-input me-1" type="radio" name="{{ field_name(form.player1) }}" value="{{ player.id }}" {{ field_value(form.player1) == player.id ? "checked" : "" }}>
+                            <label class="form-check-label" for="firstRadio">{{ player.name }} {{ player.surname }}</label>
+                        </li>
+                    {% else %}
+                        <li class="list-group-item">
+                            Please, select club
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="col-md-2 d-flex flex-column justify-content-center">
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text">$</span>
+                    <input type="text" class="form-control" aria-label="Amount for transfer" name="{{ field_name(form.price) }}" value="{{ field_value(form.price) }}" />
+                </div>
+
+                <div class="input-group mb-3 justify-content-center">
+                    <button type="button" class="btn btn-primary px-4" onclick="sell()">Sell</button>
+                </div>
+
+                <div class="input-group mb-3 justify-content-center">
+                    <button type="button" class="btn btn-primary px-4" onclick="buy()">Buy</button>
+                </div>
+
+            </div>
+
+            <div class="col-md-5 p-4">
+
+                <select name="{{ field_name(form.club2) }}" class="form-select mb-4" onchange="onRefreshForm()">
+                    <option value="">Select Club</option>
+
+                    {% for label, value in field_choices(form.club2) %}
+                        <option value="{{ value }}" {{ field_value(form.club2) == value ? "selected" : "" }}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+
+                {% for club in clubs %}
+                    {% if field_value(form.club2) == club.id %}
+                        <p>Balance: <strong>{{ club.balance }}</strong></p>
+                    {% endif %}
+                {% endfor %}
+
+                <ul class="list-group">
+                    {% for player in players2 %}
+                        <li class="list-group-item">
+                            <input class="form-check-input me-1" type="radio" name="{{ field_name(form.player2) }}" value="{{ player.id }}" {{ field_value(form.player2) == player.id ? "checked" : "" }}>
+                            <label class="form-check-label" for="firstRadio">{{ player.name }} {{ player.surname }}</label>
+                        </li>
+                    {% else %}
+                        <li class="list-group-item">
+                            Please, select club
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+        </div>
+
+    </form>
+
+{% endblock %}
