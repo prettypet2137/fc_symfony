@@ -21,7 +21,13 @@ class TransferController extends AbstractController
     #[Route('/transfer', name: 'app_transfer_show')]
     public function index(Request $request, ClubRepository $clubRepository, PlayerTransferRepository $playerTransferRepository, PlayerRepository $playerRepository): Response
     {
+        $club1 = $request->query->get('club1', '');
+        $club2 = $request->query->get('club2', '');
+
         $transfer = new PlayerTransfer();
+        if (!empty($club1)) $transfer->setClub1($clubRepository->find($club1));
+        if (!empty($club2)) $transfer->setClub2($clubRepository->find($club2));
+
         $form = $this->createForm(PlayerTransferType::class, $transfer);
         $form->handleRequest($request);
 
@@ -89,7 +95,7 @@ class TransferController extends AbstractController
                         ->getQuery()
                         ->execute();
 
-                    return $this->redirectToRoute('app_transfer_show', [], Response::HTTP_SEE_OTHER);
+                    return $this->redirectToRoute('app_transfer_show', ['club1' => $transfer->getClub1()->getId(), 'club2' => $transfer->getClub2()->getId()], Response::HTTP_SEE_OTHER);
                 }
             }
 
@@ -160,7 +166,7 @@ class TransferController extends AbstractController
                         ->getQuery()
                         ->execute();
 
-                    return $this->redirectToRoute('app_transfer_show', ['club1' => $transfer->getClub1(), 'club2' => $transfer->getClub2()], Response::HTTP_SEE_OTHER);
+                    return $this->redirectToRoute('app_transfer_show', ['club1' => $transfer->getClub1()->getId(), 'club2' => $transfer->getClub2()->getId()], Response::HTTP_SEE_OTHER);
                 }
             }
 

@@ -14,13 +14,6 @@ use App\Repository\PlayerRepository;
 
 class PlayerController extends AbstractController
 {
-    #[Route('/player', name: 'app_player_index', methods: ['GET'])]
-    public function index(PlayerRepository $playerRepository): Response
-    {
-        return $this->render('player/index.html.twig', [
-            'players' => $playerRepository->findAll(),
-        ]);
-    }
 
     #[Route('/player/new', name: 'app_player_new', methods: ['GET', 'POST'])]
     public function new(Request $request, PlayerRepository $playerRepository, ClubRepository $clubRepository): Response

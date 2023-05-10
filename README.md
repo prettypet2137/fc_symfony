@@ -22,3 +22,40 @@ When completed, please publish your project on github.com in a private repo, pro
 aivchen (https://github.com/aivchen)
 michalas (https://github.com/michalas)
 and confirm your github repo URL here so we can match your application with the github repo.
+
+## Prerequired
+You have install PHP8 or newer.
+If you want run the server with symfony, install symfony-cli.
+You must have mysql and set the configuration at .env file.
+
+## Installation
+
+### 1. Install composer
+
+$ composer install
+
+### 2. Migrate Database
+
+$ php bin/console doctrine:database:create
+
+$ php bin/console make:migration
+
+$ php bin/console doctrine:migrations:migrate
+
+### 3. Run the server
+
+$ symfony server:start
+
+or
+
+$ php -S localhost:8000 -t public/
+
+## Test 
+You can test project as following
+```
+$ php bin/console --env=test doctrine:database:create
+
+$ php bin/console --env=test doctrine:schema:create
+
+$ php bin/phpunit
+```
